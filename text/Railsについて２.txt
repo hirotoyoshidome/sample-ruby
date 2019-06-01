@@ -1,0 +1,383 @@
+ルーティング
+
+config/routes.rbにルーティング情報を記述する
+
+rails new アプリケーション名
+で作成したときに自動的に作成されるが中身は空っぽ
+
+routes.rbで設定された値は
+rake routes
+コマンドで確認できる
+
+最初の初期表示のroot情報は
+
+root : to => 'コントローラ名#アクション名'
+で設定する
+
+昔は
+match 'controller(/:action(/:id))(.:format)'
+で設定されていたが現在非推奨
+
+
+現在はでmatchメソッドを使用した場合
+match 'パス' => 'コントローラ名#アクション名'
+で設定する
+
+HTTPメソッド(GET POST)の指定
+match 'パス' => 'コントローラ名#アクション名', :via => :get(またはpost)
+または
+get 'パス' => 'コントローラ名#アクション名'
+で設定する
+
+
+パラメータの指定
+match 'パス/:パラメータ名' => 'コントローラ名#アクション名'
+または
+match 'パス(/:パラメータ名(/:パラメータ名))' => 'コントローラ名#アクション名'
+で設定する
+
+パラメータ値のデフォルトを設定するには
+match 'パス(/:パラメータ値)' => 'コントローラ名#アクション名', :default => {:パラメータ名 => '値'}
+で設定する
+
+#asを使用してルーティングに別名(エイリアス)をつけられる
+#エイリアスをつけることでルーティング情報を取得したときにエイリアスで表示される(rake routesで表示)
+match 'パス' => 'コントローラ名#アクション名', as : 'エイリアス'
+で設定
+
+RESTfulな設計
+RESTとは操作の対象となるリソースをURL使って表しそれに対してHTTPメソッドの GET POST DELETE PUTを使用して捜査を行うもの
+ルーティング設定でそれぞれのメソッドに対して設定を行う
+
+railsではRESTfulな設定をリソースベースでルーティング設定を自動で行う仕組みがある
+routes.rbに
+resources : リソース名(コントローラ名)
+で設定する
+
+resources : リソース名 : only => :アクション名
+resources : リソース名 : only => [:アクション名, :アクション名]
+の様にして使用するアクションだけを設定できる
+
+逆に
+resources : リソース名 : except => :アクション名
+resources : リソース名 : except => [:アクション名, :アクション名]
+で設定されたアクション以外を設定できる
+
+データベースの設定ファイルであるconfig/database.ymlはアプリケーションを作成するrails new アプリケーション名
+を実行したときに自動で生成される
+
+
+database.ymlファイルでは
+development #開発用
+test #テスト用
+production #本番用
+
+
+設定ファイルの中身(SQLite)
+adapter : 使用するデータベース
+database : データベースファイル名
+pool : コネクションプーリングで使用するコネクションの上限
+tumeout : タイムアウトまでの時間(ms)
+など
+
+
+DB作成
+rake db:create
+
+モデルの作成
+rails generate model モデル名
+rails generate model モデル名 カラム名:データ型
+
+#カラムを指定するとマイグレーションスクリプトファイルに追加される
+
+モデルの削除
+rails destroy model モデル名
+で削除できる
+
+railsのマイグレーション
+通常テーブルを新規で作成する場合にはSQLを実行して作成するがrailsではマイグレーションスクリプトに
+テーブルを作成するための記述をして実行する
+
+マイグレーションスクリプトを使用することで特定のDBに依存せず操作を行える
+
+マイグレーションスクリプトの構成
+
+def up
+	add_column : テーブル名, :カラム名, :データ型
+end
+で追加
+
+def down
+	remove_column : テーブル名, :カラム名
+end
+で削除
+
+def change
+	#add_columnメソッドやremove_columnメソッドをまとめて実行できる
+end
+
+#テーブルを作成する場合もchangeメソッドを使用する
+
+マイグレーションメソッドはほかにもたくさん存在するが大きく分けて
+add_xxx change_xxx remove_xxx rename_xxx系が存在する
+
+テーブルを作成するとき
+def change
+	create_table : テーブル名 do |t|
+		t.string : name
+		t.date : date
+		t.timestamps
+end
+
+
+とマイグレーションスクリプトに記述してrake migrateを実行する
+
+#idカラムは自動生成されるためスクリプトで生成しないようにする
+(プライマリーキーとして設定される)
+
+t.timestampsがスクリプトで実行されているがこれは
+created_atとカラムとupdated_atカラムが自動で作成される(作成日と更新日)
+
+
+schema_migrationsテーブルにはバージョン情報が格納されていてマイグレーションスクリプトの名前の先頭についている番号と一致する。
+
+マイグレーションスクリプトを実行するときにこの番号をみて実行する順番を決めている
+
+rake db:versionで確認することができる
+
+マイグレーションスクリプトの作成
+
+rails generate migration クラス名
+で作成できる(クラス名にはAddxxxToYYYやRemovexxxToFormYYYなど)(xxxはカラム名 YYYはテーブル名を)
+(引数を与えることで自動生成できる)
+
+マイグレーションスクリプトは複数作成可能
+
+マイグレーションスクリプトの削除は
+rails destroy migration クラス名
+で削除できる
+
+
+マイグレーションスクリプトのロールバック
+スクリプトにはupメソッドとdownメソッドが使用されていて
+rake db:migrate
+を実行するとupメソッドが実行されるがロールバックを行うとdownメソッドが実行される
+
+rake db:rollback
+でロールバックできる
+
+rake db:rollback STEP=ステップ数
+で指定されたステップ数の数だけロールバックで戻る
+
+
+カラムに対してのNULLの許可とデフォルト値の設定
+
+カラムの作成の際に
+
+t.string : name, :null => false  #nullはダメ
+t.integer : age, default => 10 #デフォルトは10
+t.string : address, limit => 50 #文字数は最大50文字
+
+の様にして生成すると設定が反映される
+
+t.decimal : total, :precision => 5, scale => 3
+
+これはデータ型がdecimalの場合に使用出来てprecisionは最大桁数 scaleあｈ小数点以下の桁数を制限できる
+
+db/seeds.rbファイルを使用することで初期データなどをあらかじめ設定することができる
+
+seeds.rbファイルの構成
+モデルクラス名.create(:カラム名 => '値', カラム名 => '値')
+の様に設定して
+
+rake db:seed
+で実行すると初期データがinsertされる
+
+大量のテストデータ等を追加する場合はrubyのスクリプトを書いて挿入することも可能である
+ex)
+5.times do |no|
+	モデルクラス名.create(:カラム名 => "タイトル#{no}")
+end
+これでnoの部分に数字が挿入される
+
+
+csvファイルを読み込んで追加することも可能
+require "csv"
+CSV.foreach('path') do |row|
+	モデルクラス名.create(:カラム名 => row[0])
+end
+の様にして読み込みと挿入を行う
+
+テンプレートを保存する場所はapp/views/コントロール名/アクション名.html.erb
+で保存する
+
+実際テンプレートを出力する場合にはそのファイルのみが反映されているわけではなく
+app/views/layouts/application.html.erbというレイアウトテンプレートが反映されている
+(自動生成されている)
+
+この中の<%= yield%>にあたる部分でアクションと紐づいているviewが出力されている
+
+app/views/コントローラ名.html.erbを作成するとコントローラごとにレイアウトテンプレートが適用される
+
+レイアウトテンプレートに任意の名前を付けたい場合はコントローラ内でlayoutメソッドを使用しレイアウトファイルを設定する
+lauout 'レイアウトファイル名'
+
+アクション単位でレイアウトを設定する場合はrender : layout => 'レイアウトファイル名'
+で設定する
+
+レイアウトファイルはすべてapp/views/layoutsに置く
+
+優先順位はアクションで定義したものが一番優先度が高い
+
+つまりあるアクションだけレイアウトを無効にしたい場合
+render : layout => false
+を宣言する
+
+コントローラ単位では
+layout falseを宣言する
+
+部分テンプレートはapp/viewsの配下のどこかのディレクトリに作成する
+
+部分テンプレートのファイル名の先頭は_(アンダースコア)で開始する
+
+部分テンプレートを反映する場合にはベースのテンプレートで
+<%= render 'ディレクトリ/アンダースコアを除いたファイル名'%>
+で設定する
+
+テンプレートの中でRubyコードを使用する
+
+複雑な処理はコントローラやロジック層で行うが簡単な繰り返し処理や分岐はテンプレート内で処理する
+
+<% %>では文字を出力しない処理を記述する
+<%= %>では文字を出力する処理を記述する
+
+<% price = 100 * 1.08%>
+<%= price %>  #108と出力
+
+繰り返し処理
+<% writers = ['Mike', 'John', 'Alica'] %>
+<% writers.each do |writer| %>
+<%= writer %>さん
+<% end %>
+
+分岐処理
+<% num = 2 %>
+<% if num == 2 %>
+2です
+<% else %>
+2ではないです
+<end %>
+
+<% -%>
+<%= -%>
+を使用すると改行コードを取り除いて出力する
+
+
+アクションからインスタンス変数(@から始まるもの)を定義したものは
+<%= @変数名 %>
+で使用できる
+
+Rails3では<%= %>で出力する場合は自動的にエスケープ処理を行ってくれる
+
+エスケープ処理を行いたくない場合は
+<%= @変数名.html_safe %>
+とhtml_safeメソッドを使用することでエスケープしない状態で出力できる
+
+ActionView::Helpers::OutputSafetyHelperクラスのrawメソッドを使用することでもエスケープしない状態で出力できる
+<%= raw @変数名 %>
+
+ActionView::Helpers::UrlHelperクラスのlink_toメソッドでリンクを設定することができる
+
+URLやパスを指定
+<%= link_to 'name', '/context/path' %>
+で
+<a href="/context/path">name</a>
+に変換される
+
+<%= link_to 'name', routingName %>
+でroutes.rbに設定されているルーティング名で指定できる
+HTMLに変換された際にはroutes.rbで指定されているあたいが出力される
+
+resourcesで設定されている場合でも出力できる
+<%= link_to 'name', routingName_path %>
+
+引数を与えてパラメータを設定することもできる
+<% param = 10 %>
+<%= link_to 'name', routingName_path(param) %>
+
+メソッド属性を設定するとHTTPメソッドを指定できる
+<%= link_to 'name', routingName(param), method => get %>
+など
+ほかにも push delete putなどに対応
+そうするとHTMLに変換された際にdata-method属性に値が設定される
+
+パラメータを指定して呼び出すアクションの場合は省略系で書くこともできる(リンクも設定される)
+
+id, classを設定したい場合も
+<%= link_to 'name', 'path', id => 'id', class => 'class' %>
+の様に書く
+
+アンカーリンクを設定する場合は
+<%= link_to 'name', path(:anchor => '') %>
+と設定する
+
+クエリ文字を設定する場合は
+<%= link_to 'name', path(:key => 'val') %>
+の様に設定する
+
+確認ダイアログを表示させたい場合は
+<%= link_to 'name', path, :confirm => 'OK??' %>
+と書く
+
+
+ActionView::Helpers::UrlHelperクラスのlink_to_unless_currentメソッドを使用すると現在画面と同じ画面に遷移する場合は遷移させないという挙動をする
+(非活性になる？)
+<%= link_to_unless_current 'name', path
+
+これはメニューバーとかで使用できる
+
+ActionView::Helpers::UrlHelperクラスのmail_toメソッドを使用するとクライアント側でメールクライアントが起動し設定されている情報が自動で設定される
+<%= mail_to 'mailAddress' %>
+
+relace_atオプションを使用すると@を置換をすることができる
+relace_dotオプションを使用すると.を置換することができる
+(2つ目の引数は<a>タグのBody部に入る文字デフォルトでは１つ目の引数の文字)
+<%= mail_to 'xxxxx@yy.yy.yy', nil, :replace_at => '_at_' %> #xxxxx_at_yy.yy.yyと出力
+
+
+encodeオプションを使用するとHTMLに変換する際にエンコードして出力してくれる
+<%= mail_to 'mailAddress', nil, :encode => 'hex' %> #16進数で表示する
+#またjavascriptを指定すると<a>タグではなく<script>タグで出力される
+
+
+同様の記述方法でcc bcc subject body も設定可能
+
+
+ActionView::Helpers::AssetTagHelperクラスのimage_tagメソッドで<img>タグを出力できる
+
+app/assets/imagesディレクトリ配下の画像ファイルがデフォルトで参照される
+
+ここに配置されているファイルは
+<%= image_tag 'fileName.png' %>
+の様にして<ing>タグで出力できる
+
+#またはpublicディレクトリ配下の任意の場所の相対パスで指定できる
+
+<%= image_tag 'path', :alt => 'name' %>
+の様にすることでHTMLに変換されたときにaltに属性が設定される
+
+ほかにもsize width height mouseoverオプションなどが使用できる
+(HTML変換時にmouseoverに設定するとonmouseoverとonmouseout属性に設定される)
+
+#link_toメソッドの第一引数にimage_tagメソッドの値を設定することで画像にリンクを設定することができる
+
+
+ActionView::Helpers::AssetTagHelperクラスのfavicon_link_tagメソッドを使用することでファビコンを設定できる
+(ファビコンはタイトル部分の画像)
+通常は引数を渡す必要はないため
+<%= favicon_link_tag %>で設定できる
+ファビコンファイルはpublicフォルダ配下に配置する
+public配下以外にしたいときは第一引数に相対パスを設定する
+
+relオプションやtypeオプションも使用できる
+

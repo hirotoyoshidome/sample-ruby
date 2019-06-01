@@ -1,0 +1,112 @@
+Skip to content
+Features
+Business
+Explore
+Marketplace
+Pricing
+
+Search
+
+Sign in or Sign up
+4,583 44,410 13,750 laravel/laravel
+ Code  Pull requests 1  Projects 0  Insights
+Join GitHub today
+GitHub is home to over 28 million developers working together to host and review code, manage projects, and build software together.
+
+A PHP framework for web artisans https://laravel.com
+php
+framework
+laravel
+ 5,672 commits
+ 9 branches
+ 84 releases
+ 449 contributors
+ PHP 95.9%	 HTML 3.4%	 Vue 0.7%
+ @taylorotwell
+taylorotwell compile
+Latest commit 5da2d13  14 hours ago
+app	Adding boilerplate maintenance middleware with excepted URIs array	8 days ago
+bootstrap	Remove extra autoload file	a year ago
+config	Set bcrypt rounds using the hashing config	3 months ago
+database	update comment	4 months ago
+public	compile	14 hours ago
+resources	update font and colors	15 hours ago
+routes	Move broadcast channel registration to a routes file.	2 years ago
+storage	ignore testing dir	a year ago
+tests	Set bcrypt rounds using the hashing config	3 months ago
+.editorconfig	Add .editorconfig file	2 months ago
+.env.example	change env example	6 months ago
+.gitattributes	Ignore changelog in export	a year ago
+.gitignore	Add VSCode to gitignore file	6 months ago
+CHANGELOG.md	add release notes for v5.6.7 and v5.6.12	2 months ago
+artisan	fix conflicts	a year ago
+composer.json	Use semver caret operator	5 months ago
+package.json	Simplify the npm watch command	4 months ago
+phpunit.xml	Switch execution order of testsuites, unit tests first	a month ago
+readme.md	add sponsor	20 days ago
+server.php	Update server.php email address	2 years ago
+webpack.mix.js	Update webpack.mix.js	a year ago
+ readme.md
+
+
+Build Status Total Downloads Latest Stable Version License
+
+About Laravel
+Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as:
+
+Simple, fast routing engine.
+Powerful dependency injection container.
+Multiple back-ends for session and cache storage.
+Expressive, intuitive database ORM.
+Database agnostic schema migrations.
+Robust background job processing.
+Real-time event broadcasting.
+Laravel is accessible, yet powerful, providing tools needed for large, robust applications.
+
+Learning Laravel
+Laravel has the most extensive and thorough documentation and video tutorial library of any modern web application framework, making it a breeze to get started learning the framework.
+
+If you're not in the mood to read, Laracasts contains over 1100 video tutorials on a range of topics including Laravel, modern PHP, unit testing, JavaScript, and more. Boost the skill level of yourself and your entire team by digging into our comprehensive video library.
+
+Laravel Sponsors
+We would like to extend our thanks to the following sponsors for helping fund on-going Laravel development. If you are interested in becoming a sponsor, please visit the Laravel Patreon page:
+
+Vehikl
+Tighten Co.
+Kirschbaum Development Group
+Cubet Techno Labs
+British Software Development
+UserInsights
+Fragrantica
+SOFTonSOFA
+User10
+Soumettre.fr
+CodeBrisk
+1Forge
+TECPRESSO
+Runtime Converter
+WebL'Agence
+Invoice Ninja
+iMi digital
+Contributing
+Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the Laravel documentation.
+
+Security Vulnerabilities
+If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via taylor@laravel.com. All security vulnerabilities will be promptly addressed.
+
+License
+The Laravel framework is open-sourced software licensed under the MIT license.
+
+? 2018 GitHub, Inc.
+Terms
+Privacy
+Security
+Status
+Help
+Contact GitHub
+API
+Training
+Shop
+Blog
+About
+Press h to open a hovercard with more details.

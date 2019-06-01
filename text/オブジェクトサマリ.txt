@@ -1,0 +1,41 @@
+class ClassName
+
+@@クラス変数
+  def methodName()
+    @メンバ変数
+    #処理
+  end
+  
+  def initialize()
+    #コンストラクタ
+  end
+  
+  #アクセスメソッド
+  attr_reader:変数名 で参照可能
+  attr_writer:変数名 で更新可能
+  attr_accessor:編す名 で参照と更新可能
+end
+
+class ChildClassName < ClassName
+  #継承
+  #オーバーライドはそのままメソッドを使用すればオーケー
+  
+  #アクセス修飾子
+  public:methodName
+  private:methodName
+  
+  #上にまとめて記載もオーケー
+  
+end
+
+module ModuleName
+  #モジュールの生成
+  #メソッドが定義可能
+  #staticに使用するには
+  module_function:methodNameを宣言する
+end
+
+#moduleはクラスやメソッド内で
+include moduleNameすることで使用可能
+
+#モジュールはインスタンスを生成できない

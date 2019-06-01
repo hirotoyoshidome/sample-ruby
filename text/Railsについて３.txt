@@ -1,0 +1,241 @@
+rails4まではrakeを使用していたがrails5ではrailsコマンドで行える
+
+拡張子erbがhtml上でスクリプトを実行できるもの
+
+パーシャルはレイアウト用の.html.erb
+
+母体のレイアウトに<%=render 'name'%>を使用して配置する
+
+拡張版cssのscssを使用する
+
+bootstrapはcssのフレームワーク
+gemでインストールできる
+
+アセットパイプラインにはcss javascript 画像などを管理する機能がある(app/asset)
+
+マニフェストファイルでどのように配置するかを決められる
+
+プリプロセッサエンジンによって拡張子を繋げて処理してくれる(.html.erbみたいに)
+
+sassはscssファイルを処理する
+
+cssはscssでも同様に動作する
+
+scssではネストした記述や変数を使用した記述がcssのように書ける
+
+rails generate integration_test xxx
+でテストのテンプレートを作成する(結合テスト)(test/integration)
+
+生成されたテンプレート内ではassert_selectメソッドが使用されていてアサーションを実行している
+
+結合テストの実施はrails test:integrationで実行する
+
+全てのテストはrails testで実行する
+
+rails console --sandboxでDBを変更しないモードでコンソールを起動する(最後にロールバックする)
+
+Modelのsaveメソッドでinsertできる
+
+valid?メソッドではModelのオブジェクト(インスタンス)の有効性を返す
+
+createメソッドとdestroyメソッドは対になっているメソッド
+
+findメソッドは引数にidを渡して検索することができる
+
+find_byメソッドでは任意の属性で検索できる
+
+firstメソッドでは最初のデータを取得する
+
+allメソッドではすべてのオブジェクトを取得する
+
+更新するときはそのままデータを設定するかupdate_attributesメソッドを使用する
+
+そのままデータを設定したあとにはsaveメソッドで更新を保存しないと反映されない
+
+modelのテストはrails test:modelsで行う
+
+model側でvalidatesメソッドの引数でpresenceを指定する事で存在性を検証できる
+
+長さを検証するときはlength項目のmaximumパラメータ, minimumパラメータで指定する
+
+フォーマットを指定するときはformat項目のwithパラメータで指定する(正規表現)
+
+formatのuniqueオプションやuniquenessオプションで一意性を検証できる
+
+has_secure_passwordを使用してパスワードをハッシュ化させることができるがbcryptをgemでインストールする事とpassword_digestという属性がModelに必要
+
+このとき仮想的なpassword属性とpassword_confirmation属性に対して検証する機能追加される
+
+has_secure_passwordを使用したオブジェクトではauthenticateメソッドが使用できる(引数とpassword_digestを認証)
+
+Rails.env.testやRails.env.developmentで現在のステージを確認できる
+
+debuggerメソッドを使用するとデバッグを行える
+
+ヘルパーメソッドとして定義したメソッドはerb内でも使用できる
+
+form_forメソッドはModelと紐付く
+(トークンも自動生成する)
+
+:属性 でname属性を設定できる
+(Model[属性]と展開される)
+
+つまりModel.new(:model)のようにすると入力値を格納できる
+
+しかしこれだと入力値などをそのままModelに格納してしまうためセキュリティ的によくない
+
+params.require(Model).permit(そのまま格納していいカラム)で制限できる
+
+これをメソッドに入れてmodel_paramsメソッドを作成(privateで)しModel.new(model_params)で使用する(慣習的にメソッドでラップする)
+
+errors.full_messagesオブジェクトはエラーメッセージを持っている
+
+eachで回すことで出力可能
+
+pluralizeメソッドを使用すると個数と単位を引数で渡すことで正しい形に変換してくれる
+
+redirect_toメソッドでリダイレクトする
+
+flashという特殊な変数によってリダイレクト後の画面で使用する値を設定する
+
+flashはコントローラ内で使用し
+flash[:success] = "値"
+のように使用する
+
+flashはhashのように使用できる(イテレータも使用できる)
+
+SSLを有効化するにはconfig/environments/production.rb
+の中にconfig.force_ssl = trueを追記するだけ
+
+Gravatarを使用すると画像が簡単に変更できる(外部のサービス)
+
+form_forの中にsessionパラメータ(:session)を指定することでparams[:session][:属性]で取得できる
+
+sessionメソッドで作成した一時cookiesは暗号化される
+
+cookiesメソッドでは永続的なセッションを作成する
+
+ログイン後はリダイレクトする
+
+session.delete(:Modelのid)でセッションを破棄(ログアウト)できる
+
+ログアウト後はrootにリダイレクトする
+
+flash.nowで描画済みの画面にもメッセージを出力できる
+
+ブラウザを再起動させてもセッションが残っている(永続的クッキー)はRemember meという
+
+記憶トークンを生成し記憶ダイジェストによるトークン認証を行う
+
+cookies.permanentメソッドを使用することで簡単にCookieに記憶トークンを設定できる(有効期限は20年(永続化に近い))
+
+cookies.sighedメソッドでクッキーの暗号化を解除できる
+
+ブラウザのクッキーに保存してあるトークンは暗号化してありDBの暗号化されたトークンと照らし合わせる
+ハッシュ関数を使用して暗号化する(複合できない)
+
+HTTPメソッド
+GET
+POST
+PATCH
+DELETE
+PUT
+
+rails generate mailer メーラー名
+
+CGI.escapeメソッドでエスケープできる
+
+ダイジェストはハッシュ化したトークン
+
+RailsのテンプレートエンジンにはBuilderやJBuilderがある
+
+.html.erbファイルで複数行をコメントアウトするには
+<%
+=begin
+%>
+コメントアウト部分
+<%
+=end
+%>
+とする(=beginと=endは行の先頭じゃないとだめ)
+
+インピーダンスミスマッチとはアプリとDBの構造的なギャップのこと
+
+O/Rマッパーによりアプリからはオブジェクトとオブジェクトでやり取りできる(マッパーがDBにマッピングしてくれる)
+
+YAMLでは
+パラメーター名:値
+で記述する
+
+YAMLで&はエイリアス *は参照を意味する
+
+RailsではフィクスチャというYAML形式のデータファイルがあり
+rails db:fixtures:load FIXTURES=テーブル名
+でテストを入れられる(seedsとは別物)
+
+rails dbconsoleコマンドでDBクライアントを起動する
+
+アプリ固有の設定情報は/configの配下にymlファイルで設定しておくと良い
+(COMMONキーを使用してdevelopment test productionにエイリアスを使って組み込んでおく)
+
+設定ファイルは
+YAML.load(File.read("#{Rails.root}/config/xx.yml"))[Rails.env]
+の様にして現在の環境をキーに持つものの情報を取得できる
+
+こうすることで名前空間を汚すことなくアクセスできる
+
+ラムダ式は->を使用しブロックを引数にとりProcを返す
+
+scaffoldを使用すると .json.jbuilderファイルが作成される
+(拡張子 .jsonによってJSON形式で表示される)
+
+data-ではじまる属性はRailsが提供しているJSライブラリがその値に基づいて何らかの処理を行っている
+
+link_toメソッドのmethodオプションでHTTPメソッドを指定できるが一般的なブラウザではDELETE PUT PATCHには対応していないため内部的にはPOSTで通信しHTTPメソッド情報を一緒に送信している
+
+link_toメソッドではGET通信のためDELETE PUT PATCHを使用する際にはmethodオプションで指定する
+
+before_actionメソッドはアクションメソッドを実行する前に実行すべきメソッドを指定する(フィルターという)
+onlyオプションで対象のアクションを指定する
+
+<%= notice %>で注意メッセージを出力する(プレイスホルダー)
+
+部分テンプレートはパーシャルといい_からファイル名がはじまる(renderメソッドで使用するときは_は省略する)
+
+postデータを取得するには
+params.require(:モデル名).permit(:列名)
+で取得する(ハッシュで取得する)
+
+これをメソッドでラップすることでメソッドのパラメータで簡単に使用できるようになる
+
+saveメソッドでDBに登録できる
+
+処理後はredirect_toメソッドを使用してリダイレクトする
+(PRGパターン(Post-Redirect-Get))
+
+redirect_toメソッドの際にnoticeオプションでメッセージを設定することでhtml.erbファイルの<%=notice%>で展開される
+
+respond_toメソッドでレスポンス結果による判定を行える(html形式かjson形式か等)
+
+DBのデータを更新するときはupdateメソッドを使用する(内部でsaveが呼ばれているため明示的に呼ぶ必要はない)
+
+form_forメソッドではオブジェクトの内容が新規レコードであるかどうかによって内容が変化する(新規ではない(更新系)とhiddenフィールドが追加される)
+
+# TODO:コメントはrails notesコマンドで参照できる
+
+destroyメソッドでDBからデータを削除する
+
+headメソッドはHTTPステータスのみを通知するメソッド
+
+form_forメソッドでremoteオプションを設定するとAjaxを使用するようになる
+(remote:true)
+
+コントローラではrespond_toメソッドを使用することでJSONデータを扱える
+
+Ajaxのテストではxhr:trueを設定する
+(XmlHttpRequest)
+
+has_many
+belongs_to
+has_many through
+で関連付けを行う

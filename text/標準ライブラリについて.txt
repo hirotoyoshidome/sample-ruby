@@ -1,0 +1,142 @@
+Numericクラス
+  Floatクラス
+  Integerクラス
+    Fixnumクラス
+    Bignumクラス
+
+# それぞれのクラスのオブジェクトの生成
+Integer.induced_from(num)
+Float.induced_from(num)
+
+num.to_i #Integerにパース
+num.to_f #Floatにパース
+num.truncate #to_iと一緒
+
+num.round #四捨五入する
+
+str = num.to_s #文字列にパース
+
+num.chr # 文字コードに対応する文字を取得
+
+num.div(3) #numを３で割った時の値を整数で
+num.quo(3) #numを３で割った時の値を浮動点小数で
+
+num.modulo(3)  #numを3で割った時の剰余を算出
+num.remainder(3) #numを3で割った時の剰余を算出するが符号は割られる対象の符号に合致する
+#remainderは使用することが少ないらしい
+
+num.divmod(3) #商と剰余を算出し配列で返す
+
+num.abs #絶対値を取得
+
+Stringクラス
+
+#文字列の比較は== !=で行える
+#文字列の大小比較は < > <= >= で行える
+str = "Hello"
+str[1] #eを示す
+str[1,2] #elを示す
+str[2..3] #llを示す
+str[2...3] #lを示す
+#ここに代入することもできるstr[1] = "" のように(他のパターンにも対応)
+
+str.insert(1, "oo") #Hooello と挿入できる
+
+str.index("ll") #2 とどの部分にあるか検索できる
+#rindexを使用すると右から検索できる(rightのr)
+
+str.include?("el") #elが含まれているかを判定しブール値で返す
+
+str.delete("ll") #llを削除する
+
+str.chomp #末尾の改行文字を削除する
+
+str.strip #空白文字を取り除く(先頭と末尾)
+
+str.lstrip #先頭の空白文字を取り除く(leftのl)
+str.rstrip #末尾の空白文字を取り除く(rigthのr)
+
+
+#deleteとchomp stripはdelete! chomp! strip!とすることで
+#メソッドの実行結果が格納される(代入し直す必要なし)
+
+str.split(",") #カンマで分割し配列を返す
+
+Arrayクラス
+
+ary = ["", "", ""] #この形式で生成可能
+
+ary[1] = nil #のように置き換えることも可能
+ary[2..4] = nil #範囲指定も可能
+
+ary[1, 2] = nill #挿入
+
+ary.length
+ary.size  #両方とも配列の長さを取得
+
+ary.flatten #ネストした配列を平滑化する
+
+ary.uniq
+ary.uniq! #で重複した要素を削除する
+
+ary.compact
+ary.compact! #でnilを削除する
+
+ary.delete(val) #でvalの値と==で等しいものを削除する
+
+ary.delete_at(index) #でインデックスで指定された番号に該当する要素を削除する
+
+ary.delete_if{|x| 判定} #でtrueになった場合要素を削除する
+ary.reject{|x| 判定} #これも同じ挙動
+
+ary.reverse
+ary.reverse! #で配列の順序を入れ替える
+
+ary.sort
+ary.sort! #でソートする
+ary.sort{|x, y| x <=> y} #のようにブロックで囲んでソートの方法を指定もできる
+
+ary.transpose #でネストされた配列を行列とみなし行と列を入れ替える
+
+
+Hashクラス
+hash = {"aa" => 11, "bb" => 22, "cc" => 33} #のように生成する
+
+hash.delete("aa") #でaaのkeyを削除する
+
+hash.delete(key){|key| 処理} #のように処理を書くことも可能
+
+#配列同様にdelete_ifやrejectが使用できる
+
+hash = Hash[*ary} #で配列からhashを生成する
+
+hash.clear #でハッシュの中身を空にする
+
+
+Timeクラス
+t = Time.new # でインスタンス生成
+t = Time.now #で現在時刻のインスタンス生成
+t.strftime(format文字列) #でフォーマットできる
+
+t.to_a #で配列で時間情報を取得できる
+
+t.to_f
+t.to_i
+t.to_sec  #でfloat int second単位で時間を取得できる(経過時間の取得)
+
+#数値変換しなくてもそのまま計算可能
+#Time.now.utc_offsetで協定世界時との時差を取得できる
+
+
+Dateクラス
+#使用する際には
+require "date" #を宣言する
+d = Date.new(2018, 5, 30) #でインスタンスを生成可能(日にちに-1を設定で最終日を指定)
+
+d=Date.today #で本日のDateインスタンスを生成
+
+#Time同様にそのまま計算できてstrftimeメソッドも使用可能
+
+#DateTimeクラスもrequire "date"で使用可能
+#これも同様にstrftimeメソッドが使用できる
+

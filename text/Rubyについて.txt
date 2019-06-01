@@ -1,0 +1,49 @@
+コマンドプロンプトで
+ruby -vでバージョン確認
+gem -v でgemのバージョンを確認
+
+
+gen install -N pryでpryという対話形式でプログラムを実行できるものをインストールした。
+
+実行する際は
+Ruby用の子安堵プロンプトを起動しpryを入力すると対話形式モードになる
+
+puts "Hello Wrold!" //で出力
+
+1+2  //3と出力
+
+4.times{puts "Hello"}  //4回繰り返す
+
+quitで対話モードから抜ける
+
+
+
+printでは改行を行わない出力ができる
+コメントは#で記述する
+
+=begin
+実行時ドキュメント
+この部分は実行時に無視される
+何行書いても大丈夫
+=end
+
+実行時はruby ファイル名.rbで実行できる
+実行時にruby -Ku ファイル名.rbでエンコードを指定して実行できる  (UTF-8)
+ruby -Ks ファイル名.rbでShift_JISで実行できる
+
+先頭とかに
+#! ruby -Ksをつけることでエンコードをファイル中で指定できる
+
+
+print ("KCODE=" $KCODE)  //これ何
+
+続きはコード中のコメントで
+
+
+git add . でステージング
+git commit -m "message"
+git push https://github.com/yoru722/SampleRuby masterでコミット
+
+
+IDEのダウンロードとかする
+

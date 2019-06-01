@@ -1,0 +1,200 @@
+RubysGemsのアップデート
+バージョン確認
+gem -v
+
+アップデート
+gem update -system
+
+railsのインストール
+gem install rails
+
+インストール先の確認
+gem search --local
+
+バージョン確認
+rails -v
+
+SQLite3のインストール
+gem install sqlite3
+確認
+gem search --local sqlite3
+
+dllファイルをダウンロードしてbinに置けば完了
+
+
+MySQL2のインストール
+gem install mysql2
+
+確認
+gem search -local mysql2
+
+アプリケーションの作成
+作成したいディレクトリで
+rails new アプリケーション名
+
+DBを指定するときは
+rails new アプリケーション名 -d mysql
+のようにする(デフォルトはsqliteで設定されている)
+
+サーバーの起動
+railsは標準でWEBrickというサーバーを持っている(Apacheのインストール必要ない)
+
+rails server
+で起動する
+
+デフォルトのポート番号は3000である
+http://localhost:3000/でアクセス可能
+
+
+logファイルも出力される
+
+gemとはrubyで使用されるパッケージのこと
+
+Bundlerとは複数のPCで開発するときに便利なもの
+
+アプリケーション作成の時に自動的にbundle installが行われる
+
+スキップしたいときは
+rails new アプリケーション名 --skip-bundle
+で作成する
+
+その後手動でbundle installを行う
+
+作成されたGemfile.lockファイルがライブラリ管理のもと
+これを配布し受け取った側はbundle installすることでパッケージのバージョンや種類が揃う
+
+サーバーを立ち上げたときの初期画面はpublicフォルダのindex.htmlが参照されている
+
+コントローラの作成
+rails generate controllerコントローラー名
+
+内部でアクションを設定できる
+
+コントローラ作成の際にコントローラ名の後にアクションを引数で渡すことでアクションの自動生成も可能である
+
+configフォルダのroutes.rbファイルでルーティングの設定が必要である
+#ここでコントローラとアクションの名前からアクションパスを決定する
+
+viewはapp/viewsアプリケーション名の配下にアクション名と紐付けて「アクション名.html.erb」
+の形で保存する
+
+アクションで呼び出すことができる
+
+テキストのみを出力する場合は
+
+def actionName
+	render : text => 'Hello'
+end
+
+フォルダ階層のファイルを読むときは
+def actonName
+	render "folder/file"
+end
+
+と定義することで可能
+
+
+変数をコントローラからViewに渡す
+
+コントローラのアクションで@変数を定義する
+
+view側で<%= @変数 %>とスクリプトレットのような形で値を出力できる
+
+configフォルダのdatabase.ymlの中にDBの設定が記述されている
+
+DBを構築するには
+rake db:create
+
+を入力する
+
+モデルの作成
+rails generate model モデル名
+
+引数を設定しフィールドを自動生成することも可能
+
+
+マイグレーションファイルは日付_create_モデル名.rbのこと
+
+これは実行することでDBを作成することができる
+
+rake db:migrate
+でマイグレーションファイルを実行する
+
+日本語を記述する際には
+#coding : utf-8
+をファイルの先頭で宣言する
+
+テスト用のデータの作成はseeds.rbファイルで実行できる
+
+rake db:seed
+で実行できる
+
+rails dbconsole
+を実行するとsqlを入力できるモードを起動する
+
+DBの値を取得する際は
+@変数 = モデル名.all
+ですべてのDBのデータを取得できる
+
+
+モデルを作成する際に
+scaffoldを使用するとさらに便利
+
+rails generate scaffold モデル名
+引数でフィールドも設定できる
+
+フィールドを設定する場合には
+fieldName : 型
+のようにデータ型の宣言も記述する
+複数の場合はカンマで区切る
+
+scaffoldはモデルのほかにviewなども生成してくれるがマイグレーションファイルの実行はしてくれないため手動で実行する
+
+コントローラ作成の際に引数にアクション名を設定することでRoutes.rbにも自動で追加してくれる
+
+アクション内でrender : action => ''
+のようにアクションを呼び出せる
+
+render : template => ''
+のようにテンプレートを呼び出せる
+
+render : text => ''
+でテキストのみを出力する
+
+render : nothing => true
+で何も表示しない(ステータスコードは返す)
+
+status => 404
+のようにするとステータスコードを指定できる
+
+layout => true
+を設定するとテキストのみのデータでもhtmlのヘッダが付加されて出力される
+
+render : json => オブジェクト
+でjson形式で出力する
+
+render : xml => オブジェクト
+でxml形式で出力する
+
+response_toメソッドを使用すると画面ではHTMLが出力されるが指定した形式でも取得できるように設定できる
+
+リダイレクトする場合
+redirect_to : action => ''
+redirect_to : controller => ''
+でリダイレクトする先を指定できる
+
+
+redirect_to => 'path'
+でurlのpathに飛ぶこともできる
+
+@変数 = prams[:パラメーター名]
+で設定されたパラメータを取得できる
+
+textに設定するときは
+render : text => '#{params[:パラメーター名]}'
+で取得できる
+
+パラメータは配列とかも扱える
+
+ルーティングから
+https://www.rubylife.jp/rails/routing/
